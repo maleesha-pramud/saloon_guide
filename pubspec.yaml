@@ -1,0 +1,30 @@
+name: saloon_guide
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.4.0
+  intl: ^0.20.2
+  uuid: ^4.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/tempory/
+    - assets/images/logo/
+    - assets/images/permanent/
+  fonts:
+    - family: BabasNeue
+      fonts:
+        - asset: assets/fonts/BebasNeue-Regular.ttf
