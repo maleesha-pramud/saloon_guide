@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:saloon_guide/constants/app_colors.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
 import 'package:saloon_guide/widgets/custom_text_field.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,15 +14,69 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String _email = '';
-  String _password = '';
+  bool _isLoading = false;
+  String _errorMessage = '';
+  final _storage = const FlutterSecureStorage();
 
-  void onEmailChanged(String value) {
-    _email = value;
-  }
+  final TextEditingController _emailController =
+      TextEditingController(text: '');
+  final TextEditingController _passwordController =
+      TextEditingController(text: '');
 
-  void onPasswordChanged(String value) {
-    _password = value;
+  Future<void> login() async {
+    print('Email: ${_emailController.text}');
+    print('Password: ${_passwordController.text}');
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      setState(() {
+        _errorMessage = 'Email and password are required';
+      });
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = '';
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:3000/api/v1/auth/login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': _emailController.text,
+          'password': _passwordController.text,
+        }),
+      );
+
+      final responseData = jsonDecode(response.body);
+      print('responseData: ${responseData}');
+
+      if (response.statusCode == 200 && responseData['status'] == true) {
+        // Store token and user data in secure storage
+        final token = responseData['data']['token'];
+        final userData = responseData['data']['user'];
+
+        await _storage.write(key: 'auth_token', value: token);
+        await _storage.write(key: 'user_data', value: jsonEncode(userData));
+
+        // Navigate to home or dashboard screen
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        setState(() {
+          _errorMessage =
+              responseData['message'] ?? 'Login failed. Please try again.';
+        });
+      }
+    } catch (error) {
+      setState(() {
+        _errorMessage = 'Network error: ${error}';
+        print(error);
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -46,17 +103,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 40),
                   CustomTextField(
-                    value: _email,
-                    onValueChange: onEmailChanged,
+                    controller: _emailController,
                     hintText: 'johnDoe@gmail.com',
                     labelText: 'Email',
                   ),
                   CustomTextField(
-                    value: _password,
-                    onValueChange: onPasswordChanged,
+                    controller: _passwordController,
                     hintText: '123456',
                     labelText: 'Password',
+                    isPassword: true,
                   ),
+                  if (_errorMessage.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        _errorMessage,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
                   Text(
                     'Forgot password?',
                     style: TextStyle(
@@ -78,14 +145,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      onPressed: () {},
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      onPressed: _isLoading ? null : login,
+                      child: _isLoading
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.black,
+                              ),
+                            )
+                          : Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                   SizedBox(height: 20),

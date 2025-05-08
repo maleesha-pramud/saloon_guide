@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   CustomTextField({
     super.key,
-    required this.value,
-    required this.onValueChange,
     this.labelText,
     this.hintText = '',
+    this.isPassword = false,
+    required this.controller,
   });
 
-  final TextEditingController _controller = TextEditingController();
-  final String value;
   final String hintText;
+  final bool isPassword;
   final String? labelText;
-  final Function onValueChange;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +27,8 @@ class CustomTextField extends StatelessWidget {
           SizedBox(height: 5),
         ],
         TextField(
-          controller: _controller,
-          onChanged: (value) => onValueChange(value),
+          controller: controller,
+          obscureText: isPassword,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white12, width: 1),
