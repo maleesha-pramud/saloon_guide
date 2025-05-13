@@ -10,17 +10,6 @@ class CompleteScreen extends StatefulWidget {
 }
 
 class _CompleteScreenState extends State<CompleteScreen> {
-  String _email = '';
-  String _password = '';
-
-  void onEmailChanged(String value) {
-    _email = value;
-  }
-
-  void onPasswordChanged(String value) {
-    _password = value;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

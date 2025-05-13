@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       final responseData = jsonDecode(response.body);
-      print('responseData: ${responseData}');
+      print('responseData: $responseData');
 
       if (response.statusCode == 200 && responseData['status'] == true) {
         // Store token and user data in secure storage
@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/signup');
+                      Navigator.pushNamed(context, '/register');
                     },
                     child: Row(
                       children: [

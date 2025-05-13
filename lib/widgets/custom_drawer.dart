@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:saloon_guide/constants/app_colors.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -22,23 +23,32 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
   Future<void> _loadUserData() async {
-    final userDataString = await _storage.read(key: 'user_data');
-    if (userDataString != null) {
-      userData = Map<String, dynamic>.from(await jsonDecode(userDataString));
+    try {
+      final userDataString = await _storage.read(key: 'user_data');
+      if (userDataString != null && userDataString.isNotEmpty) {
+        setState(() {
+          userData = jsonDecode(userDataString) as Map<String, dynamic>;
+        });
+      }
+    } catch (e) {
+      print('Error loading user data: $e');
+      // Handle the error gracefully - reset user data if needed
+      setState(() {
+        userData = null;
+      });
     }
-    print('userData: ${userData}');
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.black,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: AppColors.primaryDark,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

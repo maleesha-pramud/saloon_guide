@@ -4,7 +4,7 @@ import 'package:saloon_guide/pages/home/home_screen.dart';
 import 'package:saloon_guide/pages/login/login_screen.dart';
 // import 'package:saloon_guide/pages/complete/complete_screen.dart';
 // import 'package:saloon_guide/pages/saloon_list/saloon_list_screen.dart';
-// import 'package:saloon_guide/pages/signup/signup_screen.dart';
+import 'package:saloon_guide/pages/register/register_screen.dart';
 // import 'package:saloon_guide/pages/single_saloon/single_saloon_screen.dart';
 
 void main() {
@@ -70,7 +70,7 @@ class _MainAppState extends State<MainApp> {
               : LoginScreen(),
       routes: {
         '/login': (context) => LoginScreen(),
-        // '/signup': (context) => SignupScreen(),
+        '/register': (context) => RegisterScreen(),
         // '/saloon-list': (context) => SaloonListScreen(),
         '/home': (context) => HomeScreen(),
         // '/saloon': (context) => SingleSaloonScreen(),
