@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:saloon_guide/constants/app_colors.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
+import 'package:saloon_guide/widgets/custom_form_text_field.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
@@ -196,17 +197,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: Column(
                       children: [
                         // Name field
-                        TextFormField(
+                        CustomFormTextField(
+                          label: 'Name',
                           controller: _nameController,
-                          decoration: InputDecoration(
-                            labelText: 'Name',
-                            prefixIcon: const Icon(Icons.person),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            filled: true,
-                            fillColor: AppColors.secondaryLight,
-                          ),
+                          prefixIcon: const Icon(Icons.person),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your name';
@@ -218,17 +212,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(height: 20),
 
                         // Email field
-                        TextFormField(
+                        CustomFormTextField(
+                          label: 'Email',
                           controller: _emailController,
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            prefixIcon: const Icon(Icons.email),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            filled: true,
-                            fillColor: AppColors.secondaryLight,
-                          ),
+                          prefixIcon: const Icon(Icons.email),
+                          keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
@@ -244,17 +232,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(height: 20),
 
                         // Phone field
-                        TextFormField(
+                        CustomFormTextField(
+                          label: 'Phone',
                           controller: _phoneController,
-                          decoration: InputDecoration(
-                            labelText: 'Phone',
-                            prefixIcon: const Icon(Icons.phone),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            filled: true,
-                            fillColor: AppColors.secondaryLight,
-                          ),
+                          prefixIcon: const Icon(Icons.phone),
                           keyboardType: TextInputType.phone,
                           validator: (value) {
                             if (value != null && value.isNotEmpty) {
