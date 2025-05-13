@@ -106,6 +106,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
               // Navigate to favorites
             },
           ),
+          userData?['role_id'] == 2
+              ? ListTile(
+                  leading: Icon(Icons.add_business),
+                  title: Text('Create Saloon'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/create-saloon');
+                  },
+                )
+              : Container(),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),

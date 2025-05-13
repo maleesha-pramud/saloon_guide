@@ -3,8 +3,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:saloon_guide/pages/home/home_screen.dart';
 import 'package:saloon_guide/pages/login/login_screen.dart';
 // import 'package:saloon_guide/pages/complete/complete_screen.dart';
-// import 'package:saloon_guide/pages/saloon_list/saloon_list_screen.dart';
+import 'package:saloon_guide/pages/saloon_list/saloon_list_screen.dart';
 import 'package:saloon_guide/pages/register/register_screen.dart';
+import 'package:saloon_guide/pages/create_saloon/create_saloon_screen.dart';
 // import 'package:saloon_guide/pages/single_saloon/single_saloon_screen.dart';
 
 void main() {
@@ -71,8 +72,9 @@ class _MainAppState extends State<MainApp> {
       routes: {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
-        // '/saloon-list': (context) => SaloonListScreen(),
+        '/saloon-list': (context) => SaloonListScreen(),
         '/home': (context) => HomeScreen(),
+        '/create-saloon': (context) => CreateSaloonScreen(),
         // '/saloon': (context) => SingleSaloonScreen(),
         // '/complete': (context) => CompleteScreen(),
       },
