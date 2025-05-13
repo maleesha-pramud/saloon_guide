@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:saloon_guide/constants/app_colors.dart';
+import 'package:saloon_guide/pages/settings/edit_profile_screen.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final _storage = const FlutterSecureStorage();
   Map<String, dynamic>? userData;
+  String? token;
   bool _isLoading = true;
 
   // Settings state
@@ -33,6 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _loadUserData() async {
     try {
       final userDataString = await _storage.read(key: 'user_data');
+      token = await _storage.read(key: 'auth_token');
       if (userDataString != null && userDataString.isNotEmpty) {
         setState(() {
           userData = jsonDecode(userDataString) as Map<String, dynamic>;
@@ -51,6 +54,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
         userData = null;
         _isLoading = false;
       });
+    }
+  }
+
+  Future<void> _navigateToEditProfile() async {
+    if (userData != null) {
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              EditProfileScreen(userData: userData!, token: token!),
+        ),
+      );
+
+      if (result != null && result is Map<String, dynamic>) {
+        setState(() {
+          userData = result;
+        });
+      }
     }
   }
 
@@ -159,15 +180,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {
-                                  // Navigate to edit profile
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          'Edit profile feature coming soon'),
-                                    ),
-                                  );
-                                },
+                                onPressed: _navigateToEditProfile,
                                 icon: Icon(Icons.edit),
                               ),
                             ],
