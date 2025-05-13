@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saloon_guide/constants/app_fonts.dart';
 import 'package:saloon_guide/models/saloon_list/saloon_list_item.dart';
+import 'package:saloon_guide/pages/home/widgets/greeting_text.dart';
 import 'package:saloon_guide/pages/home/widgets/latest_saloon_card.dart';
 import 'package:saloon_guide/pages/home/widgets/nearby_saloon_card.dart';
 import 'package:saloon_guide/widgets/custom_drawer.dart';
@@ -66,32 +67,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'Hey,',
-                      style: TextStyle(color: Colors.white, fontSize: 30),
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'Maleesha',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      '👋',
-                      style: TextStyle(color: Colors.white, fontSize: 30),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Monday, March 31',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
+                GreetingText(),
                 SizedBox(height: 25),
                 Container(
                   width: double.infinity,

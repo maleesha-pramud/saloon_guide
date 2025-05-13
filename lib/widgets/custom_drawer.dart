@@ -29,6 +29,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
         setState(() {
           userData = jsonDecode(userDataString) as Map<String, dynamic>;
         });
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/login',
+          (route) => false,
+        );
       }
     } catch (e) {
       print('Error loading user data: $e');
