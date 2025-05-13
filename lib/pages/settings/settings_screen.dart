@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:saloon_guide/constants/app_colors.dart';
 import 'package:saloon_guide/pages/settings/edit_profile_screen.dart';
+import 'package:saloon_guide/pages/settings/widgets/saloon_details_card.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -186,6 +187,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                           ),
                         ),
+
+                        // Salon section - only for salon owners
+                        if (userData != null && userData!['role_id'] == 2) ...[
+                          SaloonDetailsCard(userData: userData!, token: token!),
+                        ],
 
                         SizedBox(height: 30),
                         Text(
