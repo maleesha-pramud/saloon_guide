@@ -121,7 +121,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: Text('Settings'),
             onTap: () {
               Navigator.pop(context);
-              // Navigate to settings
+              Navigator.pushNamed(context, '/settings');
             },
           ),
           Divider(),
