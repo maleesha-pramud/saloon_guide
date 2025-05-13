@@ -85,7 +85,18 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
             if (saloonData != null)
               TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/create-saloon');
+                  Navigator.pushNamed(
+                    context,
+                    '/edit-saloon',
+                    arguments: {
+                      'saloonData': saloonData,
+                      'token': widget.token,
+                    },
+                  ).then((updated) {
+                    if (updated == true && widget.userData != null) {
+                      _loadSaloonDetails(widget.userData!['id']);
+                    }
+                  });
                 },
                 child: Text(
                   'Edit Saloon',
