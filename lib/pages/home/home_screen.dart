@@ -11,12 +11,12 @@ class HomeScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final saloonData = SaloonListItem(
-    name: "Maleesha Saloon",
-    address: "40/2 Panadura rd, Horana",
-    rating: 5.0,
-    totalReviews: 122,
-  );
+  // final saloonData = SaloonListItem(
+  //   name: "Maleesha Saloon",
+  //   address: "40/2 Panadura rd, Horana",
+  //   rating: 5.0,
+  //   totalReviews: 122,
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.grey, fontSize: 15),
                 ),
                 SizedBox(height: 10),
-                LatestSaloonCard(saloonData: saloonData),
+                // LatestSaloonCard(saloonData: saloonData),
                 SizedBox(height: 20),
                 Text(
                   'NEARBY BABERSHOPS',
@@ -124,9 +124,9 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      NearbySaloonCard(saloonData: saloonData),
+                      // NearbySaloonCard(saloonData: saloonData),
                       SizedBox(width: 10),
-                      NearbySaloonCard(saloonData: saloonData),
+                      // NearbySaloonCard(saloonData: saloonData),
                       SizedBox(width: 10),
                     ],
                   ),

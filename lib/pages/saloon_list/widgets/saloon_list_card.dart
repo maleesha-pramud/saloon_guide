@@ -20,7 +20,11 @@ class SaloonListCard extends StatelessWidget {
           padding: EdgeInsets.zero,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, '/saloon');
+          Navigator.pushNamed(
+            context,
+            '/saloon',
+            arguments: {'saloonId': saloonData.id},
+          );
         },
         child: Container(
           padding: const EdgeInsets.all(15),
@@ -67,7 +71,15 @@ class SaloonListCard extends StatelessWidget {
                         color: Colors.white70,
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 5),
+                    Text(
+                      'Open: ${saloonData.openingTime} - ${saloonData.closingTime}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white70,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
                         const Icon(Icons.star, color: Colors.amber, size: 18),
@@ -80,6 +92,16 @@ class SaloonListCard extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ),
+                        if (saloonData.totalReviews > 0) ...[
+                          const SizedBox(width: 5),
+                          Text(
+                            '(${saloonData.totalReviews})',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.white70,
+                            ),
+                          ),
+                        ]
                       ],
                     ),
                   ],

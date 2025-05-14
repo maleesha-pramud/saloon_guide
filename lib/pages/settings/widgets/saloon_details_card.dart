@@ -38,7 +38,7 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
         Uri.parse('http://localhost:3000/api/v1/saloons/owner/$ownerId'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $widget.token',
+          'Authorization': 'Bearer ${widget.token}',
         },
       );
 
