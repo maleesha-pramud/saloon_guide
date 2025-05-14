@@ -5,6 +5,7 @@ import 'package:saloon_guide/constants/app_colors.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
 import 'package:saloon_guide/widgets/custom_form_text_field.dart';
 import 'package:saloon_guide/widgets/custom_form_time_field.dart';
+import 'package:saloon_guide/config/api_config.dart';
 
 class EditSaloonScreen extends StatefulWidget {
   const EditSaloonScreen({Key? key}) : super(key: key);
@@ -146,7 +147,7 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
       print('Request body: $requestBody');
 
       final response = await http.put(
-        Uri.parse('http://localhost:3000/api/v1/saloons/${_saloonData!['id']}'),
+        Uri.parse(ApiConfig.getSaloonUrl(_saloonData!['id'])),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $_token',

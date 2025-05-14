@@ -6,6 +6,7 @@ import 'package:saloon_guide/constants/app_colors.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
 import 'package:saloon_guide/widgets/custom_form_text_field.dart';
 import 'package:saloon_guide/widgets/custom_form_time_field.dart';
+import 'package:saloon_guide/config/api_config.dart';
 
 class CreateSaloonScreen extends StatefulWidget {
   const CreateSaloonScreen({super.key});
@@ -55,7 +56,7 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
     try {
       final token = await _storage.read(key: 'auth_token');
       final response = await http.post(
-        Uri.parse('http://localhost:3000/api/v1/saloons'),
+        Uri.parse(ApiConfig.createSaloonUrl),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

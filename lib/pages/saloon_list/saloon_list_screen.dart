@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:saloon_guide/constants/app_fonts.dart';
 import 'package:saloon_guide/models/saloon_list/saloon_list_item.dart';
 import 'package:saloon_guide/pages/saloon_list/widgets/saloon_list_card.dart';
+import 'package:saloon_guide/config/api_config.dart';
 
 class SaloonListScreen extends StatefulWidget {
   const SaloonListScreen({super.key});
@@ -80,7 +81,7 @@ class _SaloonListScreenState extends State<SaloonListScreen> {
         queryParams['search'] = _searchQuery;
       }
 
-      final uri = Uri.http('localhost:3000', '/api/v1/saloons', queryParams);
+      final uri = Uri.http(ApiConfig.baseUrl, '/api/v1/saloons', queryParams);
 
       final response = await http.get(
         uri,

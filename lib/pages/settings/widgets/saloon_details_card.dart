@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:saloon_guide/constants/app_colors.dart';
+import 'package:saloon_guide/config/api_config.dart';
 
 class SaloonDetailsCard extends StatefulWidget {
   const SaloonDetailsCard({super.key, required this.userData, this.token});
@@ -35,7 +36,7 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
 
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:3000/api/v1/saloons/owner/$ownerId'),
+        Uri.parse(ApiConfig.getSaloonsByOwnerUrl(ownerId)),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${widget.token}',

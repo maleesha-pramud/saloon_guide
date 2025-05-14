@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:saloon_guide/constants/app_colors.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
 import 'package:saloon_guide/widgets/custom_form_text_field.dart';
+import 'package:saloon_guide/config/api_config.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
@@ -60,8 +61,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     try {
       final userId = widget.userData['id'];
-      final apiUrl =
-          'http://localhost:3000/api/v1/users/$userId'; // Replace with your actual API URL
+      final apiUrl = ApiConfig.getUserUrl(userId);
 
       // Prepare request data
       final requestData = {
