@@ -194,79 +194,82 @@ class _SaloonListScreenState extends State<SaloonListScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-        child: Column(
-          children: [
-            if (_isSearchActive) ...[
-              Container(
-                padding: EdgeInsets.only(left: 10),
-                margin: EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromARGB(148, 158, 158, 158),
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                    color: Color.fromARGB(17, 255, 255, 255)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: _onSearchChanged,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          icon: Icon(Icons.search),
-                          hintText: 'Search saloons...',
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          child: Column(
+            children: [
+              if (_isSearchActive) ...[
+                Container(
+                  padding: EdgeInsets.only(left: 10),
+                  margin: EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color.fromARGB(148, 158, 158, 158),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                      color: Color.fromARGB(17, 255, 255, 255)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: _onSearchChanged,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(Icons.search),
+                            hintText: 'Search saloons...',
+                          ),
                         ),
                       ),
-                    ),
-                    if (_searchQuery.isNotEmpty) ...[
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _searchQuery = '';
-                            _searchController.clear();
-                            _fetchSaloons(refresh: true);
-                          });
-                        },
-                        icon: Icon(Icons.close),
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-                        ),
-                      )
-                    ]
-                  ],
+                      if (_searchQuery.isNotEmpty) ...[
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _searchQuery = '';
+                              _searchController.clear();
+                              _fetchSaloons(refresh: true);
+                            });
+                          },
+                          icon: Icon(Icons.close),
+                          style: ButtonStyle(
+                            padding:
+                                MaterialStateProperty.all(EdgeInsets.all(0)),
+                          ),
+                        )
+                      ]
+                    ],
+                  ),
                 ),
+              ],
+              SizedBox(height: 10),
+              Expanded(
+                child: _isLoading
+                    ? _buildLoadingIndicator()
+                    : _hasError
+                        ? _buildErrorView()
+                        : _saloonList.isEmpty
+                            ? _buildEmptyView()
+                            : RefreshIndicator(
+                                onRefresh: _onRefresh,
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  itemCount: _saloonList.length +
+                                      (_hasMoreData ? 1 : 0),
+                                  itemBuilder: (context, index) {
+                                    if (index == _saloonList.length) {
+                                      return _buildLoadMoreIndicator();
+                                    }
+                                    return SaloonListCard(
+                                      saloonData: _saloonList[index],
+                                    );
+                                  },
+                                ),
+                              ),
               ),
             ],
-            SizedBox(height: 10),
-            Expanded(
-              child: _isLoading
-                  ? _buildLoadingIndicator()
-                  : _hasError
-                      ? _buildErrorView()
-                      : _saloonList.isEmpty
-                          ? _buildEmptyView()
-                          : RefreshIndicator(
-                              onRefresh: _onRefresh,
-                              child: ListView.builder(
-                                controller: _scrollController,
-                                itemCount:
-                                    _saloonList.length + (_hasMoreData ? 1 : 0),
-                                itemBuilder: (context, index) {
-                                  if (index == _saloonList.length) {
-                                    return _buildLoadMoreIndicator();
-                                  }
-                                  return SaloonListCard(
-                                    saloonData: _saloonList[index],
-                                  );
-                                },
-                              ),
-                            ),
-            ),
-          ],
+          ),
         ),
       ),
     );

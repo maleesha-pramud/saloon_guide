@@ -112,233 +112,241 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 30),
-                  CustomBackButton(),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Settings',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+          : SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomBackButton(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Settings',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 30),
+                          SizedBox(height: 30),
 
-                        // Profile section
-                        Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: AppColors.secondaryLight,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 100),
-                                child: Text(
-                                  userData?['name'] ?? 'User',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: Colors.white24,
-                                    child: Icon(Icons.person,
-                                        size: 50, color: Colors.white),
-                                  ),
-                                  SizedBox(width: 20),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          userData?['email'] ??
-                                              'email@example.com',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.white70,
-                                          ),
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(
-                                          userData?['phone'] ?? 'Not provided',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.white70,
-                                          ),
-                                        ),
-                                      ],
+                          // Profile section
+                          Container(
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: AppColors.secondaryLight,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 100),
+                                  child: Text(
+                                    userData?['name'] ?? 'User',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                  IconButton(
-                                    onPressed: _navigateToEditProfile,
-                                    icon: Icon(Icons.edit),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 40,
+                                      backgroundColor: Colors.white24,
+                                      child: Icon(Icons.person,
+                                          size: 50, color: Colors.white),
+                                    ),
+                                    SizedBox(width: 20),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            userData?['email'] ??
+                                                'email@example.com',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            userData?['phone'] ??
+                                                'Not provided',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: _navigateToEditProfile,
+                                      icon: Icon(Icons.edit),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
 
-                        // Salon section - only for salon owners
-                        if (userData != null && userData!['role_id'] == 2) ...[
-                          SaloonDetailsCard(userData: userData!, token: token!),
-                        ],
+                          // Salon section - only for salon owners
+                          if (userData != null &&
+                              userData!['role_id'] == 2) ...[
+                            SaloonDetailsCard(
+                                userData: userData!, token: token!),
+                          ],
 
-                        SizedBox(height: 30),
-                        Text(
-                          'PREFERENCES',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
+                          SizedBox(height: 30),
+                          Text(
+                            'PREFERENCES',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 15),
+                          SizedBox(height: 15),
 
-                        // Notifications
-                        _buildSettingTile(
-                          title: 'Notifications',
-                          subtitle: 'Enable push notifications',
-                          trailing: Switch(
-                            value: _notificationsEnabled,
-                            onChanged: (value) {
-                              setState(() {
-                                _notificationsEnabled = value;
-                              });
-                            },
-                            activeColor: AppColors.primaryDark,
+                          // Notifications
+                          _buildSettingTile(
+                            title: 'Notifications',
+                            subtitle: 'Enable push notifications',
+                            trailing: Switch(
+                              value: _notificationsEnabled,
+                              onChanged: (value) {
+                                setState(() {
+                                  _notificationsEnabled = value;
+                                });
+                              },
+                              activeColor: AppColors.primaryDark,
+                            ),
                           ),
-                        ),
 
-                        // Dark Mode
-                        _buildSettingTile(
-                          title: 'Dark Mode',
-                          subtitle: 'Enable dark theme',
-                          trailing: Switch(
-                            value: _darkModeEnabled,
-                            onChanged: (value) {
-                              setState(() {
-                                _darkModeEnabled = value;
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      'Theme changing will be available soon')));
-                            },
-                            activeColor: AppColors.primaryDark,
+                          // Dark Mode
+                          _buildSettingTile(
+                            title: 'Dark Mode',
+                            subtitle: 'Enable dark theme',
+                            trailing: Switch(
+                              value: _darkModeEnabled,
+                              onChanged: (value) {
+                                setState(() {
+                                  _darkModeEnabled = value;
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Theme changing will be available soon')));
+                              },
+                              activeColor: AppColors.primaryDark,
+                            ),
                           ),
-                        ),
 
-                        // Language
-                        _buildSettingTile(
-                          title: 'Language',
-                          subtitle: _selectedLanguage,
-                          trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: Text('Select Language'),
-                                content: Container(
-                                  width: double.maxFinite,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: _languages.length,
-                                    itemBuilder: (context, index) {
-                                      return RadioListTile<String>(
-                                        title: Text(_languages[index]),
-                                        value: _languages[index],
-                                        groupValue: _selectedLanguage,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selectedLanguage = value!;
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                      );
-                                    },
+                          // Language
+                          _buildSettingTile(
+                            title: 'Language',
+                            subtitle: _selectedLanguage,
+                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Select Language'),
+                                  content: Container(
+                                    width: double.maxFinite,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: _languages.length,
+                                      itemBuilder: (context, index) {
+                                        return RadioListTile<String>(
+                                          title: Text(_languages[index]),
+                                          value: _languages[index],
+                                          groupValue: _selectedLanguage,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _selectedLanguage = value!;
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-
-                        SizedBox(height: 30),
-                        Text(
-                          'ACCOUNT',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
+                              );
+                            },
                           ),
-                        ),
-                        SizedBox(height: 15),
 
-                        // Privacy Policy
-                        _buildSettingTile(
-                          title: 'Privacy Policy',
-                          trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                          onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text('Privacy Policy will be added soon')));
-                          },
-                        ),
+                          SizedBox(height: 30),
+                          Text(
+                            'ACCOUNT',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          SizedBox(height: 15),
 
-                        // Terms of Service
-                        _buildSettingTile(
-                          title: 'Terms of Service',
-                          trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                          onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    'Terms of Service will be added soon')));
-                          },
-                        ),
+                          // Privacy Policy
+                          _buildSettingTile(
+                            title: 'Privacy Policy',
+                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'Privacy Policy will be added soon')));
+                            },
+                          ),
 
-                        // About
-                        _buildSettingTile(
-                          title: 'About',
-                          subtitle: 'App version 1.0.0',
-                          trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                          onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('About section coming soon')));
-                          },
-                        ),
+                          // Terms of Service
+                          _buildSettingTile(
+                            title: 'Terms of Service',
+                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Terms of Service will be added soon')));
+                            },
+                          ),
 
-                        // Logout
-                        _buildSettingTile(
-                          title: 'Logout',
-                          titleColor: Colors.red,
-                          trailing: Icon(Icons.logout, color: Colors.red),
-                          onTap: _logout,
-                        ),
+                          // About
+                          _buildSettingTile(
+                            title: 'About',
+                            subtitle: 'App version 1.0.0',
+                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text('About section coming soon')));
+                            },
+                          ),
 
-                        SizedBox(height: 20),
-                      ],
+                          // Logout
+                          _buildSettingTile(
+                            title: 'Logout',
+                            titleColor: Colors.red,
+                            trailing: Icon(Icons.logout, color: Colors.red),
+                            onTap: _logout,
+                          ),
+
+                          SizedBox(height: 20),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );

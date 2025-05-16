@@ -134,195 +134,197 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 30),
-            const CustomBackButton(),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Edit Profile',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CustomBackButton(),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Edit Profile',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
+                    const SizedBox(height: 30),
 
-                  // Profile picture
-                  Center(
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: 70,
-                          backgroundColor: Colors.white24,
-                          child: const Icon(
-                            Icons.person,
-                            size: 80,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryDark,
-                              shape: BoxShape.circle,
-                            ),
+                    // Profile picture
+                    Center(
+                      child: Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 70,
+                            backgroundColor: Colors.white24,
                             child: const Icon(
-                              Icons.camera_alt,
+                              Icons.person,
+                              size: 80,
                               color: Colors.white,
-                              size: 20,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  // Form
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        // Name field
-                        CustomFormTextField(
-                          label: 'Name',
-                          controller: _nameController,
-                          prefixIcon: const Icon(Icons.person),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your name';
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Email field
-                        CustomFormTextField(
-                          label: 'Email',
-                          controller: _emailController,
-                          prefixIcon: const Icon(Icons.email),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                .hasMatch(value)) {
-                              return 'Please enter a valid email';
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Phone field
-                        CustomFormTextField(
-                          label: 'Phone',
-                          controller: _phoneController,
-                          prefixIcon: const Icon(Icons.phone),
-                          keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value != null && value.isNotEmpty) {
-                              if (!RegExp(r'^\+?[0-9]{10,15}$')
-                                  .hasMatch(value)) {
-                                return 'Please enter a valid phone number';
-                              }
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Password field
-                        TextFormField(
-                          controller: _passwordController,
-                          obscureText: _obscurePassword,
-                          decoration: InputDecoration(
-                            labelText: 'New Password (optional)',
-                            prefixIcon: const Icon(Icons.lock),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _obscurePassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryDark,
+                                shape: BoxShape.circle,
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
-                              },
+                              child: const Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                                size: 20,
+                              ),
                             ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            filled: true,
-                            fillColor: AppColors.secondaryLight,
                           ),
-                          validator: (value) {
-                            if (value != null && value.isNotEmpty) {
-                              if (value.length < 8) {
-                                return 'Password must be at least 8 characters long';
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    // Form
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          // Name field
+                          CustomFormTextField(
+                            label: 'Name',
+                            controller: _nameController,
+                            prefixIcon: const Icon(Icons.person),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your name';
                               }
-                              if (!RegExp(r'^(?=.*[A-Z])(?=.*\d)')
+                              return null;
+                            },
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // Email field
+                          CustomFormTextField(
+                            label: 'Email',
+                            controller: _emailController,
+                            prefixIcon: const Icon(Icons.email),
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your email';
+                              }
+                              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                   .hasMatch(value)) {
-                                return 'Password must contain at least one uppercase letter and one number';
+                                return 'Please enter a valid email';
                               }
-                            }
-                            return null;
-                          },
-                        ),
+                              return null;
+                            },
+                          ),
 
-                        const SizedBox(height: 40),
+                          const SizedBox(height: 20),
 
-                        // Submit button
-                        SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: _isLoading ? null : _saveProfile,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryDark,
-                              shape: RoundedRectangleBorder(
+                          // Phone field
+                          CustomFormTextField(
+                            label: 'Phone',
+                            controller: _phoneController,
+                            prefixIcon: const Icon(Icons.phone),
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              if (value != null && value.isNotEmpty) {
+                                if (!RegExp(r'^\+?[0-9]{10,15}$')
+                                    .hasMatch(value)) {
+                                  return 'Please enter a valid phone number';
+                                }
+                              }
+                              return null;
+                            },
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // Password field
+                          TextFormField(
+                            controller: _passwordController,
+                            obscureText: _obscurePassword,
+                            decoration: InputDecoration(
+                              labelText: 'New Password (optional)',
+                              prefixIcon: const Icon(Icons.lock),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                              ),
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              filled: true,
+                              fillColor: AppColors.secondaryLight,
                             ),
-                            child: _isLoading
-                                ? const CircularProgressIndicator(
-                                    color: Colors.white)
-                                : const Text(
-                                    'Save Changes',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                            validator: (value) {
+                              if (value != null && value.isNotEmpty) {
+                                if (value.length < 8) {
+                                  return 'Password must be at least 8 characters long';
+                                }
+                                if (!RegExp(r'^(?=.*[A-Z])(?=.*\d)')
+                                    .hasMatch(value)) {
+                                  return 'Password must contain at least one uppercase letter and one number';
+                                }
+                              }
+                              return null;
+                            },
                           ),
-                        ),
-                      ],
+
+                          const SizedBox(height: 40),
+
+                          // Submit button
+                          SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: _isLoading ? null : _saveProfile,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryDark,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: _isLoading
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white)
+                                  : const Text(
+                                      'Save Changes',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

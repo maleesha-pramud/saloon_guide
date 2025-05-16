@@ -83,187 +83,191 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 30),
-            CustomBackButton(),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Log in to Cut Hair',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 35,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  CustomTextField(
-                    controller: _emailController,
-                    hintText: 'johnDoe@gmail.com',
-                    labelText: 'Email',
-                  ),
-                  CustomTextField(
-                    controller: _passwordController,
-                    hintText: '123456',
-                    labelText: 'Password',
-                    isPassword: true,
-                  ),
-                  if (_errorMessage.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        _errorMessage,
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 14,
-                        ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomBackButton(),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Log in to Cut Hair',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 35,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      color: AppColors.primaryDark,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
+                    SizedBox(height: 40),
+                    CustomTextField(
+                      controller: _emailController,
+                      hintText: 'johnDoe@gmail.com',
+                      labelText: 'Email',
                     ),
-                  ),
-                  SizedBox(height: 30),
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Colors.white),
-                        foregroundColor: WidgetStateProperty.all(Colors.black),
-                        shape: WidgetStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                    CustomTextField(
+                      controller: _passwordController,
+                      hintText: '123456',
+                      labelText: 'Password',
+                      isPassword: true,
+                    ),
+                    if (_errorMessage.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          _errorMessage,
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
                           ),
                         ),
                       ),
-                      onPressed: _isLoading ? null : login,
-                      child: _isLoading
-                          ? SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.black,
-                              ),
-                            )
-                          : Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                    Text(
+                      'Forgot password?',
+                      style: TextStyle(
+                        color: AppColors.primaryDark,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/register');
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'Don\'t have an account? ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          'Sign up',
-                          style: TextStyle(
-                            color: AppColors.primaryDark,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 40),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: Colors.white38,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(
-                            'OR',
-                            style: TextStyle(
-                              color: Colors.white60,
-                              fontSize: 16,
+                    SizedBox(height: 30),
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              WidgetStateProperty.all(Colors.white),
+                          foregroundColor:
+                              WidgetStateProperty.all(Colors.black),
+                          shape: WidgetStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: Colors.white38,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        padding: WidgetStateProperty.all(
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                        ),
-                        foregroundColor: WidgetStateProperty.all(Colors.white),
-                        side: WidgetStateProperty.all(
-                          BorderSide(color: Colors.white24, width: 1),
-                        ),
-                        shape: WidgetStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
+                        onPressed: _isLoading ? null : login,
+                        child: _isLoading
+                            ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.black,
+                                ),
+                              )
+                            : Text(
+                                'Login',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
-                      onPressed: () {},
+                    ),
+                    SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/register');
+                      },
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/images/logo/google.png',
-                            height: 25,
-                            width: 25,
-                          ),
-                          SizedBox(width: 10),
                           Text(
-                            'Continue With Google',
+                            'Don\'t have an account? ',
                             style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
                               fontSize: 16,
-                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          Text(
+                            'Sign up',
+                            style: TextStyle(
+                              color: AppColors.primaryDark,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              height: 1,
+                              thickness: 1,
+                              color: Colors.white38,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'OR',
+                              style: TextStyle(
+                                color: Colors.white60,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              height: 1,
+                              thickness: 1,
+                              color: Colors.white38,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          padding: WidgetStateProperty.all(
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          ),
+                          foregroundColor:
+                              WidgetStateProperty.all(Colors.white),
+                          side: WidgetStateProperty.all(
+                            BorderSide(color: Colors.white24, width: 1),
+                          ),
+                          shape: WidgetStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/logo/google.png',
+                              height: 25,
+                              width: 25,
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              'Continue With Google',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

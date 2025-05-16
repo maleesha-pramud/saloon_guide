@@ -153,12 +153,12 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 30),
             CustomBackButton(),
             Expanded(
               child: SingleChildScrollView(
                 controller: _scrollController,
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
