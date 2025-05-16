@@ -1,0 +1,2 @@
+D:/My Projects/Mobile Application/SaloonGuide/saloon_guide/android/app/.cxx/Debug/5d6a5p69/x86/CMakeFiles/edit_cache.dir
+D:/My Projects/Mobile Application/SaloonGuide/saloon_guide/android/app/.cxx/Debug/5d6a5p69/x86/CMakeFiles/rebuild_cache.dir
