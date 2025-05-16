@@ -44,11 +44,18 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
       );
 
       final responseData = jsonDecode(response.body);
+      print('Response data: $responseData');
 
       if (response.statusCode == 200 && responseData['status'] == true) {
         setState(() {
           saloonData = responseData['data'];
           _isSaloonLoading = false;
+        });
+      } else if (responseData['message'] == "No salon found for owner") {
+        setState(() {
+          saloonData = null; // This will trigger the "create salon" prompt
+          _isSaloonLoading = false;
+          _saloonError = null; // Clear any previous error
         });
       } else {
         setState(() {
@@ -259,7 +266,10 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
               onPressed: () {
                 Navigator.pushNamed(context, '/create-saloon');
               },
-              child: Text('Create Salon'),
+              child: Text(
+                'Create Salon',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
         ],

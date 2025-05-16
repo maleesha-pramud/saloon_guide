@@ -140,49 +140,59 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: AppColors.secondaryLight,
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CircleAvatar(
-                                radius: 40,
-                                backgroundColor: Colors.white24,
-                                child: Icon(Icons.person,
-                                    size: 50, color: Colors.white),
-                              ),
-                              SizedBox(width: 20),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      userData?['name'] ?? 'User',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      userData?['email'] ?? 'email@example.com',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      userData?['phone'] ?? 'Not provided',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                  ],
+                              Padding(
+                                padding: const EdgeInsets.only(left: 100),
+                                child: Text(
+                                  userData?['name'] ?? 'User',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
-                              IconButton(
-                                onPressed: _navigateToEditProfile,
-                                icon: Icon(Icons.edit),
+                              SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 40,
+                                    backgroundColor: Colors.white24,
+                                    child: Icon(Icons.person,
+                                        size: 50, color: Colors.white),
+                                  ),
+                                  SizedBox(width: 20),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          userData?['email'] ??
+                                              'email@example.com',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white70,
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          userData?['phone'] ?? 'Not provided',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white70,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: _navigateToEditProfile,
+                                    icon: Icon(Icons.edit),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
