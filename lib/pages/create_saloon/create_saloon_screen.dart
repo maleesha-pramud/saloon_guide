@@ -33,6 +33,27 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
   final TextEditingController _closingTimeController =
       TextEditingController(text: '17:00');
 
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _addressController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    _websiteController.dispose();
+    _openingTimeController.dispose();
+    _closingTimeController.dispose();
+    super.dispose();
+  }
+
   // Helper method to validate time format
   bool _validateTimeFormat(String time) {
     if (time.isEmpty) {
@@ -101,7 +122,20 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
           _errorMessage = responseData['message'] ?? 'Failed to create saloon';
         });
       }
+
+      // Add a 1-second delay
+      // await Future.delayed(const Duration(seconds: 1));
+
+      // Safely scroll to top if controller is attached
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
     } catch (error) {
+      print('Error: $error');
       setState(() {
         _errorMessage = 'Network error: $error';
       });
@@ -123,6 +157,7 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
             CustomBackButton(),
             Expanded(
               child: SingleChildScrollView(
+                controller: _scrollController,
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
