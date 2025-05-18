@@ -176,7 +176,7 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
                         padding: EdgeInsets.all(10),
                         margin: EdgeInsets.only(bottom: 20),
                         decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.2),
+                          color: Colors.red.withAlpha((0.2 * 255).toInt()),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -197,7 +197,7 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
                         padding: EdgeInsets.all(10),
                         margin: EdgeInsets.only(bottom: 20),
                         decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.2),
+                          color: Colors.green.withAlpha((0.2 * 255).toInt()),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
