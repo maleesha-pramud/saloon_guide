@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:saloon_guide/constants/app_colors.dart';
+import 'package:saloon_guide/pages/create_saloon/widgets/google_map_card.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
 import 'package:saloon_guide/widgets/custom_form_text_field.dart';
 import 'package:saloon_guide/widgets/custom_form_time_field.dart';
@@ -34,6 +35,9 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
       TextEditingController(text: '17:00');
 
   final ScrollController _scrollController = ScrollController();
+
+  double? _selectedLatitude;
+  double? _selectedLongitude;
 
   @override
   void initState() {
@@ -67,6 +71,19 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    if (_selectedLatitude == null || _selectedLongitude == null) {
+      setState(() {
+        _errorMessage = 'Please select a location on the map.';
+      });
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+      return;
+    }
 
     setState(() {
       _isLoading = true;
@@ -91,6 +108,8 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
           'website': _websiteController.text,
           'opening_time': _openingTimeController.text,
           'closing_time': _closingTimeController.text,
+          'latitude': _selectedLatitude,
+          'longitude': _selectedLongitude,
         }),
       );
 
@@ -280,6 +299,24 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
                             controller: _websiteController,
                             keyboardType: TextInputType.url,
                           ),
+                          GoogleMapCard(
+                            onLocationSelected: (latLng) {
+                              setState(() {
+                                _selectedLatitude = latLng.latitude;
+                                _selectedLongitude = latLng.longitude;
+                              });
+                            },
+                          ),
+                          if (_selectedLatitude != null &&
+                              _selectedLongitude != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                'Selected Location: ($_selectedLatitude, $_selectedLongitude)',
+                                style: TextStyle(
+                                    color: Colors.white70, fontSize: 12),
+                              ),
+                            ),
                           CustomFormTimeField(
                             label: 'Opening Time',
                             controller: _openingTimeController,

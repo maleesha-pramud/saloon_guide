@@ -6,6 +6,8 @@ import 'package:saloon_guide/widgets/custom_back_button.dart';
 import 'package:saloon_guide/widgets/custom_form_text_field.dart';
 import 'package:saloon_guide/widgets/custom_form_time_field.dart';
 import 'package:saloon_guide/config/api_config.dart';
+import 'package:saloon_guide/pages/create_saloon/widgets/google_map_card.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EditSaloonScreen extends StatefulWidget {
   const EditSaloonScreen({Key? key}) : super(key: key);
@@ -32,6 +34,8 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
   bool _isLoading = false;
   String? _errorMessage;
   String _successMessage = ''; // Added success message variable
+  double? _selectedLatitude;
+  double? _selectedLongitude;
 
   @override
   void didChangeDependencies() {
@@ -75,6 +79,28 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
       } else {
         _closingTimeController.text = closingTime;
       }
+
+      // Set initial lat/lng if available and parse safely
+      var lat = _saloonData!['latitude'];
+      var lng = _saloonData!['longitude'];
+      if (lat != null) {
+        if (lat is num) {
+          _selectedLatitude = lat.toDouble();
+        } else if (lat is String) {
+          _selectedLatitude = double.tryParse(lat);
+        }
+      } else {
+        _selectedLatitude = null;
+      }
+      if (lng != null) {
+        if (lng is num) {
+          _selectedLongitude = lng.toDouble();
+        } else if (lng is String) {
+          _selectedLongitude = double.tryParse(lng);
+        }
+      } else {
+        _selectedLongitude = null;
+      }
     }
   }
 
@@ -111,6 +137,15 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
       return;
     }
 
+    // Validate location
+    if (_selectedLatitude == null || _selectedLongitude == null) {
+      setState(() {
+        _errorMessage = 'Please select a location on the map.';
+        _isLoading = false;
+      });
+      return;
+    }
+
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -142,6 +177,8 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
         'website': _websiteController.text,
         'opening_time': _openingTimeController.text,
         'closing_time': _closingTimeController.text,
+        'latitude': _selectedLatitude,
+        'longitude': _selectedLongitude,
       };
 
       print('Request body: $requestBody');
@@ -306,6 +343,30 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
                             controller: _websiteController,
                             keyboardType: TextInputType.url,
                           ),
+                          // --- Add GoogleMapCard for location selection ---
+                          GoogleMapCard(
+                            onLocationSelected: (latLng) {
+                              setState(() {
+                                _selectedLatitude = latLng.latitude;
+                                _selectedLongitude = latLng.longitude;
+                              });
+                            },
+                            initialLocation: (_selectedLatitude != null &&
+                                    _selectedLongitude != null)
+                                ? LatLng(
+                                    _selectedLatitude!, _selectedLongitude!)
+                                : null,
+                          ),
+                          if (_selectedLatitude != null &&
+                              _selectedLongitude != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                'Selected Location: ($_selectedLatitude, $_selectedLongitude)',
+                                style: TextStyle(
+                                    color: Colors.white70, fontSize: 12),
+                              ),
+                            ),
                           CustomFormTimeField(
                             label: 'Opening Time',
                             controller: _openingTimeController,
