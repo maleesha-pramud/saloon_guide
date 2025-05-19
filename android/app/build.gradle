@@ -39,6 +39,13 @@ android {
     }
 }
 
+// Load Google Maps API key from local.properties and make it available as a resource
+if (project.hasProperty('GOOGLE_MAPS_API_KEY')) {
+    android.applicationVariants.all { variant ->
+        variant.resValue "string", "google_maps_key", project.GOOGLE_MAPS_API_KEY
+    }
+}
+
 flutter {
     source = "../.."
 }
