@@ -40,9 +40,10 @@ android {
 }
 
 // Load Google Maps API key from local.properties and make it available as a resource
-if (project.hasProperty('GOOGLE_MAPS_API_KEY')) {
+def googleMapsApiKey = project.hasProperty('GOOGLE_MAPS_API_KEY') ? project.GOOGLE_MAPS_API_KEY : null
+if (googleMapsApiKey != null) {
     android.applicationVariants.all { variant ->
-        variant.resValue "string", "google_maps_key", project.GOOGLE_MAPS_API_KEY
+        variant.resValue "string", "google_maps_key", googleMapsApiKey
     }
 }
 
