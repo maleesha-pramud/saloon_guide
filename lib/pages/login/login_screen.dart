@@ -107,12 +107,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _emailController,
                       hintText: 'johnDoe@gmail.com',
                       labelText: 'Email',
+                      keyboardType: TextInputType.emailAddress,
                     ),
                     CustomTextField(
                       controller: _passwordController,
                       hintText: '123456',
                       labelText: 'Password',
                       isPassword: true,
+                      keyboardType: TextInputType.visiblePassword,
                     ),
                     if (_errorMessage.isNotEmpty)
                       Padding(

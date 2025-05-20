@@ -183,22 +183,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _nameController,
                       hintText: 'Kasun Jayaweera',
                       labelText: 'Full Name',
+                      keyboardType: TextInputType.name,
                     ),
                     CustomTextField(
                       controller: _emailController,
                       hintText: 'johnDoe@gmail.com',
                       labelText: 'Email',
+                      keyboardType: TextInputType.emailAddress,
                     ),
                     CustomTextField(
                       controller: _passwordController,
                       hintText: '123456',
                       labelText: 'Password',
                       isPassword: true,
+                      keyboardType: TextInputType.visiblePassword,
                     ),
                     CustomTextField(
                       controller: _phoneController,
                       hintText: '0712345678',
                       labelText: 'Phone Number',
+                      keyboardType: TextInputType.phone,
                     ),
                     if (_errorMessage.isNotEmpty)
                       Padding(
