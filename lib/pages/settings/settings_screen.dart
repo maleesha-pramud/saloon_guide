@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:saloon_guide/constants/app_colors.dart';
@@ -38,11 +39,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final userDataString = await _storage.read(key: 'user_data');
       token = await _storage.read(key: 'auth_token');
       if (userDataString != null && userDataString.isNotEmpty) {
+        if (!mounted) return; // Ensure widget is still mounted before setState
         setState(() {
           userData = jsonDecode(userDataString) as Map<String, dynamic>;
           _isLoading = false;
         });
       } else {
+        if (!mounted) return;
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/login',
@@ -50,7 +53,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       }
     } catch (e) {
-      print('Error loading user data: $e');
+      if (kDebugMode) {
+        print('Error loading user data: $e');
+      }
+      if (!mounted) return; // Ensure widget is still mounted before setState
       setState(() {
         userData = null;
         _isLoading = false;
@@ -91,6 +97,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: () async {
               Navigator.pop(context); // Close dialog
               await _storage.deleteAll();
+              if (!mounted) return;
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 '/login',
@@ -261,7 +268,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 context: context,
                                 builder: (context) => AlertDialog(
                                   title: Text('Select Language'),
-                                  content: Container(
+                                  content: SizedBox(
                                     width: double.maxFinite,
                                     child: ListView.builder(
                                       shrinkWrap: true,

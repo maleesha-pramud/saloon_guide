@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:saloon_guide/pages/home/home_screen.dart';
@@ -31,19 +32,25 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    print('MainApp initState called');
+    if (kDebugMode) {
+      print('MainApp initState called');
+    }
     _checkAuthentication();
   }
 
   Future<void> _checkAuthentication() async {
     try {
       final token = await _storage.read(key: 'auth_token');
-      print('Token: $token');
+      if (kDebugMode) {
+        print('Token: $token');
+      }
       setState(() {
         _isAuthenticated = token != null;
       });
     } catch (e) {
-      print('Error reading token: $e');
+      if (kDebugMode) {
+        print('Error reading token: $e');
+      }
       // If there's an error reading the token, assume not authenticated
       setState(() {
         _isAuthenticated = false;

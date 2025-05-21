@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:saloon_guide/constants/app_colors.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
@@ -27,10 +28,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
       TextEditingController(text: '');
 
   Future<void> register() async {
-    print('Full Name: ${_nameController.text}');
-    print('Email: ${_emailController.text}');
-    print('Password: ${_passwordController.text}');
-    print('Phone Number: ${_phoneController.text}');
+    if (kDebugMode) {
+      print('Full Name: ${_nameController.text}');
+    }
+    if (kDebugMode) {
+      print('Email: ${_emailController.text}');
+    }
+    if (kDebugMode) {
+      print('Password: ${_passwordController.text}');
+    }
+    if (kDebugMode) {
+      print('Phone Number: ${_phoneController.text}');
+    }
 
     if (_nameController.text.isEmpty ||
         _emailController.text.isEmpty ||
@@ -60,9 +69,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
       final responseData = jsonDecode(response.body);
-      print('responseData: $responseData');
+      if (kDebugMode) {
+        print('responseData: $responseData');
+      }
 
       if (responseData['status'] == true) {
+        if (!mounted) return;
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/login',
@@ -77,7 +89,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } catch (error) {
       setState(() {
         _errorMessage = 'Network error: $error';
-        print(error);
+        if (kDebugMode) {
+          print(error);
+        }
       });
     } finally {
       setState(() {

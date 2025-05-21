@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:saloon_guide/constants/app_colors.dart';
 
@@ -56,7 +57,9 @@ class _CustomFormTimeFieldState extends State<CustomFormTimeField> {
         );
       }
     } catch (e) {
-      print('Error parsing time: $e');
+      if (kDebugMode) {
+        print('Error parsing time: $e');
+      }
     }
 
     return null;
@@ -87,7 +90,9 @@ class _CustomFormTimeFieldState extends State<CustomFormTimeField> {
       final minute = picked.minute.toString().padLeft(2, '0');
       final newTimeValue = '$hour:$minute';
 
-      print('Time picked: $newTimeValue');
+      if (kDebugMode) {
+        print('Time picked: $newTimeValue');
+      }
 
       // Update both the controller and our display value
       setState(() {

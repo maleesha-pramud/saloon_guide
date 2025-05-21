@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:saloon_guide/constants/app_colors.dart';
@@ -30,6 +31,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           userData = jsonDecode(userDataString) as Map<String, dynamic>;
         });
       } else {
+        if (!mounted) return;
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/login',
@@ -37,7 +39,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
         );
       }
     } catch (e) {
-      print('Error loading user data: $e');
+      if (kDebugMode) {
+        print('Error loading user data: $e');
+      }
       // Handle the error gracefully - reset user data if needed
       setState(() {
         userData = null;
@@ -130,6 +134,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: Text('Logout'),
             onTap: () async {
               await _storage.deleteAll();
+              if (!mounted) return;
               Navigator.pop(context); // Close the drawer first
               // Replace current route and remove all previous routes from stack
               Navigator.pushNamedAndRemoveUntil(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -114,7 +115,9 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
       );
 
       final responseData = jsonDecode(response.body);
-      print('responseData: $responseData');
+      if (kDebugMode) {
+        print('responseData: $responseData');
+      }
 
       if (response.statusCode == 201 && responseData['status'] == true) {
         setState(() {
@@ -134,7 +137,9 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
 
         // Optional: Navigate back or to a confirmation page
         Future.delayed(Duration(seconds: 2), () {
-          Navigator.pop(context);
+          if (mounted) {
+            Navigator.pop(context);
+          }
         });
       } else {
         setState(() {
@@ -154,7 +159,9 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
         );
       }
     } catch (error) {
-      print('Error: $error');
+      if (kDebugMode) {
+        print('Error: $error');
+      }
       setState(() {
         _errorMessage = 'Network error: $error';
       });
@@ -333,9 +340,9 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
                             child: ElevatedButton(
                               onPressed: _isLoading ? null : _createSaloon,
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
+                                backgroundColor: WidgetStateProperty.all(
                                     AppColors.primaryDark),
-                                padding: MaterialStateProperty.all(
+                                padding: WidgetStateProperty.all(
                                     EdgeInsets.symmetric(vertical: 15)),
                               ),
                               child: _isLoading

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart'; // Add this import for date formatting
@@ -30,6 +31,7 @@ class _GreetingTextState extends State<GreetingText> {
           userData = jsonDecode(userDataString) as Map<String, dynamic>;
         });
       } else {
+        if (!mounted) return; // Guard against using context after async gap
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/login',
@@ -37,7 +39,9 @@ class _GreetingTextState extends State<GreetingText> {
         );
       }
     } catch (e) {
-      print('Error loading user data: $e');
+      if (kDebugMode) {
+        print('Error loading user data: $e');
+      }
       // Handle the error gracefully - reset user data if needed
       setState(() {
         userData = null;

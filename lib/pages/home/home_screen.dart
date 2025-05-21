@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:saloon_guide/constants/app_fonts.dart';
-import 'package:saloon_guide/models/saloon_list/saloon_list_item.dart';
+// import 'package:saloon_guide/models/saloon_list/saloon_list_item.dart';
 import 'package:saloon_guide/pages/home/widgets/greeting_text.dart';
-import 'package:saloon_guide/pages/home/widgets/latest_saloon_card.dart';
-import 'package:saloon_guide/pages/home/widgets/nearby_saloon_card.dart';
+// import 'package:saloon_guide/pages/home/widgets/latest_saloon_card.dart';
+// import 'package:saloon_guide/pages/home/widgets/nearby_saloon_card.dart';
 import 'package:saloon_guide/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:saloon_guide/constants/app_colors.dart';
@@ -10,7 +11,7 @@ import 'package:saloon_guide/pages/create_saloon/widgets/google_map_card.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EditSaloonScreen extends StatefulWidget {
-  const EditSaloonScreen({Key? key}) : super(key: key);
+  const EditSaloonScreen({super.key});
 
   @override
   State<EditSaloonScreen> createState() => _EditSaloonScreenState();
@@ -110,11 +111,15 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
 
     // Add listeners to monitor time field changes
     _openingTimeController.addListener(() {
-      print('Opening time changed to: ${_openingTimeController.text}');
+      if (kDebugMode) {
+        print('Opening time changed to: ${_openingTimeController.text}');
+      }
     });
 
     _closingTimeController.addListener(() {
-      print('Closing time changed to: ${_closingTimeController.text}');
+      if (kDebugMode) {
+        print('Closing time changed to: ${_closingTimeController.text}');
+      }
     });
   }
 
@@ -164,8 +169,12 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
     }
 
     // Debug prints to verify values before sending
-    print('Sending opening time: ${_openingTimeController.text}');
-    print('Sending closing time: ${_closingTimeController.text}');
+    if (kDebugMode) {
+      print('Sending opening time: ${_openingTimeController.text}');
+    }
+    if (kDebugMode) {
+      print('Sending closing time: ${_closingTimeController.text}');
+    }
 
     try {
       final requestBody = {
@@ -181,7 +190,9 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
         'longitude': _selectedLongitude,
       };
 
-      print('Request body: $requestBody');
+      if (kDebugMode) {
+        print('Request body: $requestBody');
+      }
 
       final response = await http.put(
         Uri.parse(ApiConfig.getSaloonUrl(_saloonData!['id'])),
@@ -193,7 +204,9 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
       );
 
       final responseData = jsonDecode(response.body);
-      print('Response: $responseData');
+      if (kDebugMode) {
+        print('Response: $responseData');
+      }
 
       if (response.statusCode == 200 && responseData['status'] == true) {
         setState(() {
@@ -204,8 +217,10 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
 
         // Delay before navigating back
         Future.delayed(Duration(seconds: 2), () {
-          Navigator.pop(
-              context, true); // Return true to indicate successful update
+          if (mounted) {
+            Navigator.pop(
+                context, true); // Return true to indicate successful update
+          }
         });
       } else {
         setState(() {
@@ -266,7 +281,7 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
                         padding: EdgeInsets.all(10),
                         margin: EdgeInsets.only(bottom: 20),
                         decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.2),
+                          color: Colors.red.withAlpha((0.2 * 255).toInt()),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -287,7 +302,7 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
                         padding: EdgeInsets.all(10),
                         margin: EdgeInsets.only(bottom: 20),
                         decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.2),
+                          color: Colors.green.withAlpha((0.2 * 255).toInt()),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -383,9 +398,9 @@ class _EditSaloonScreenState extends State<EditSaloonScreen> {
                             child: ElevatedButton(
                               onPressed: _isLoading ? null : _updateSaloon,
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
+                                backgroundColor: WidgetStateProperty.all(
                                     AppColors.primaryDark),
-                                padding: MaterialStateProperty.all(
+                                padding: WidgetStateProperty.all(
                                     EdgeInsets.symmetric(vertical: 15)),
                               ),
                               child: _isLoading

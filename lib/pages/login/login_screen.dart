@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:saloon_guide/constants/app_colors.dart';
 import 'package:saloon_guide/widgets/custom_back_button.dart';
@@ -25,8 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
       TextEditingController(text: '');
 
   Future<void> login() async {
-    print('Email: ${_emailController.text}');
-    print('Password: ${_passwordController.text}');
+    if (kDebugMode) {
+      print('Email: ${_emailController.text}');
+    }
+    if (kDebugMode) {
+      print('Password: ${_passwordController.text}');
+    }
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       setState(() {
         _errorMessage = 'Email and password are required';
@@ -50,7 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       final responseData = jsonDecode(response.body);
-      print('responseData: $responseData');
+      if (kDebugMode) {
+        print('responseData: $responseData');
+      }
 
       if (response.statusCode == 200 && responseData['status'] == true) {
         // Store token and user data in secure storage
@@ -61,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await _storage.write(key: 'user_data', value: jsonEncode(userData));
 
         // Navigate to home or dashboard screen
+        if (!mounted) return;
         Navigator.pushReplacementNamed(context, '/home');
       } else {
         setState(() {
@@ -70,8 +78,10 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (error) {
       setState(() {
-        _errorMessage = 'Network error: ${error}';
-        print(error);
+        _errorMessage = 'Network error: $error';
+        if (kDebugMode) {
+          print(error);
+        }
       });
     } finally {
       setState(() {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -12,10 +13,10 @@ class EditProfileScreen extends StatefulWidget {
   final String token;
 
   const EditProfileScreen({
-    Key? key,
+    super.key,
     required this.userData,
     required this.token,
-  }) : super(key: key);
+  });
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -87,7 +88,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
 
       final responseData = jsonDecode(response.body);
-      print('Response: $responseData');
+      if (kDebugMode) {
+        print('Response: $responseData');
+      }
 
       if (responseData['status'] == true) {
         // Update local storage with new user data

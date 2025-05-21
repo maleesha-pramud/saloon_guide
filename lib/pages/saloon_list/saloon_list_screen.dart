@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -27,7 +28,7 @@ class _SaloonListScreenState extends State<SaloonListScreen> {
   // Pagination variables
   int _currentPage = 1;
   int _totalPages = 1;
-  int _limit = 10;
+  final int _limit = 10;
   bool _hasMoreData = true;
   bool _isLoadingMore = false;
 
@@ -92,7 +93,9 @@ class _SaloonListScreenState extends State<SaloonListScreen> {
       );
 
       final responseData = jsonDecode(response.body);
-      print('Response: $responseData');
+      if (kDebugMode) {
+        print('Response: $responseData');
+      }
 
       if (responseData['status'] == true) {
         final saloons = responseData['data']['saloons'] as List;
@@ -234,8 +237,7 @@ class _SaloonListScreenState extends State<SaloonListScreen> {
                           },
                           icon: Icon(Icons.close),
                           style: ButtonStyle(
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.all(0)),
+                            padding: WidgetStateProperty.all(EdgeInsets.all(0)),
                           ),
                         )
                       ]

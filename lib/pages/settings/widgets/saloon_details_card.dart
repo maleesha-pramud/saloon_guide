@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:saloon_guide/constants/app_colors.dart';
@@ -23,8 +24,8 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
   void initState() {
     super.initState();
     // If user is a salon owner (role_id = 2), fetch their salon details
-    if (widget.userData != null && widget.userData!['role_id'] == 2) {
-      _loadSaloonDetails(widget.userData!['id']);
+    if (widget.userData['role_id'] == 2) {
+      _loadSaloonDetails(widget.userData['id']);
     }
   }
 
@@ -44,7 +45,9 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
       );
 
       final responseData = jsonDecode(response.body);
-      print('Response data: $responseData');
+      if (kDebugMode) {
+        print('Response data: $responseData');
+      }
 
       if (response.statusCode == 200 && responseData['status'] == true) {
         setState(() {
@@ -65,7 +68,9 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
         });
       }
     } catch (e) {
-      print('Error loading salon data: $e');
+      if (kDebugMode) {
+        print('Error loading salon data: $e');
+      }
       setState(() {
         _saloonError = 'Network error: $e';
         _isSaloonLoading = false;
@@ -101,8 +106,8 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
                       'token': widget.token,
                     },
                   ).then((updated) {
-                    if (updated == true && widget.userData != null) {
-                      _loadSaloonDetails(widget.userData!['id']);
+                    if (updated == true) {
+                      _loadSaloonDetails(widget.userData['id']);
                     }
                   });
                 },
@@ -170,18 +175,16 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
               ),
             ),
             SizedBox(height: 8),
-            ...(saloonData!['services'] as List)
-                .map((service) => Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(service['name'] ?? 'Service'),
-                          Text('\$${service['price'] ?? '0'}'),
-                        ],
-                      ),
-                    ))
-                .toList(),
+            ...(saloonData!['services'] as List).map((service) => Padding(
+                  padding: const EdgeInsets.only(bottom: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(service['name'] ?? 'Service'),
+                      Text('\$${service['price'] ?? '0'}'),
+                    ],
+                  ),
+                )),
           ],
         ],
       ),
@@ -229,9 +232,7 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
           SizedBox(height: 10),
           TextButton(
             onPressed: () {
-              if (widget.userData != null) {
-                _loadSaloonDetails(widget.userData!['id']);
-              }
+              _loadSaloonDetails(widget.userData['id']);
             },
             child: Text('Try Again'),
           ),

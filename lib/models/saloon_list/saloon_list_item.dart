@@ -1,5 +1,3 @@
-import 'package:uuid/uuid.dart';
-
 class SaloonListItem {
   final int id;
   final String name;
