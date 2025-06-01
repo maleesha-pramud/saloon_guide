@@ -13,4 +13,6 @@ class ApiConfig {
   static String getSaloonUrl(int id) => 'http://$baseUrl/api/v1/saloons/$id';
   static String getUserUrl(int id) => 'http://$baseUrl/api/v1/users/$id';
   static String get saloonsListUrl => 'http://$baseUrl/api/v1/saloons';
+  static String get nearbySaloonListUrl =>
+      'http://$baseUrl/api/v1/saloons/nearby';
 }

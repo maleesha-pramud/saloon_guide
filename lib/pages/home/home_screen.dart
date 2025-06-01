@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saloon_guide/constants/app_fonts.dart';
 // import 'package:saloon_guide/models/saloon_list/saloon_list_item.dart';
 import 'package:saloon_guide/pages/home/widgets/greeting_text.dart';
+import 'package:saloon_guide/pages/home/widgets/nearby_saloons_section.dart';
 // import 'package:saloon_guide/pages/home/widgets/latest_saloon_card.dart';
 // import 'package:saloon_guide/pages/home/widgets/nearby_saloon_card.dart';
 import 'package:saloon_guide/widgets/custom_drawer.dart';
@@ -113,24 +114,7 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 10),
                 // LatestSaloonCard(saloonData: saloonData),
                 SizedBox(height: 20),
-                Text(
-                  'NEARBY BABERSHOPS',
-                  style: TextStyle(color: Colors.grey, fontSize: 15),
-                ),
-                SizedBox(height: 10),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // NearbySaloonCard(saloonData: saloonData),
-                      SizedBox(width: 10),
-                      // NearbySaloonCard(saloonData: saloonData),
-                      SizedBox(width: 10),
-                    ],
-                  ),
-                ),
+                NearbySaloonsSection(),
               ],
             ),
           ),

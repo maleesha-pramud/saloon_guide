@@ -84,3 +84,6 @@ class _GoogleMapCardState extends State<GoogleMapCard> {
     );
   }
 }
+
+// No changes needed in this Dart file for Google Maps to load tiles.
+// Make sure your API key is set up correctly in AndroidManifest.xml and AppDelegate.swift.
