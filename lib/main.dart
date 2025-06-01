@@ -8,7 +8,7 @@ import 'package:saloon_guide/pages/saloon_list/saloon_list_screen.dart';
 import 'package:saloon_guide/pages/register/register_screen.dart';
 import 'package:saloon_guide/pages/create_saloon/create_saloon_screen.dart';
 import 'package:saloon_guide/pages/settings/settings_screen.dart';
-// import 'package:saloon_guide/pages/single_saloon/single_saloon_screen.dart';
+import 'package:saloon_guide/pages/single_saloon/single_saloon_screen.dart';
 import 'package:saloon_guide/pages/saloon/edit_saloon_screen.dart';
 
 void main() {
@@ -86,7 +86,7 @@ class _MainAppState extends State<MainApp> {
         '/create-saloon': (context) => CreateSaloonScreen(),
         '/settings': (context) => SettingsScreen(),
         '/edit-saloon': (context) => const EditSaloonScreen(),
-        // '/saloon': (context) => SingleSaloonScreen(),
+        '/saloon': (context) => SingleSaloonScreen(),
         // '/complete': (context) => CompleteScreen(),
       },
     );
