@@ -23,8 +23,8 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
   @override
   void initState() {
     super.initState();
-    // If user is a salon owner (role_id = 2), fetch their salon details
-    if (widget.userData['role_id'] == 2) {
+    // If user is a salon owner (role_id = 2 or role = 'owner'), fetch their salon details
+    if (widget.userData['role_id'] == 2 || widget.userData['role'] == 'owner') {
       _loadSaloonDetails(widget.userData['id']);
     }
   }

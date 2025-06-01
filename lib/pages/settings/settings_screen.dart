@@ -209,7 +209,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                           // Salon section - only for salon owners
                           if (userData != null &&
-                              userData!['role_id'] == 2) ...[
+                              (userData!['role_id'] == 2 ||
+                                  userData!['role'] == 'owner')) ...[
                             SaloonDetailsCard(
                                 userData: userData!, token: token!),
                           ],

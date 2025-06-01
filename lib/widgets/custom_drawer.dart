@@ -110,7 +110,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               // Navigate to favorites
             },
           ),
-          userData?['role_id'] == 2
+          userData?['role'] == 'owner' || userData?['role_id'] == 2
               ? ListTile(
                   leading: Icon(Icons.add_business),
                   title: Text('Create Saloon'),

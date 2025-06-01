@@ -18,6 +18,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false;
   String _errorMessage = '';
+  String _selectedRole = 'guest'; // Add role selection state
 
   final TextEditingController _nameController = TextEditingController(text: '');
   final TextEditingController _emailController =
@@ -65,6 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           'email': _emailController.text,
           'password': _passwordController.text,
           'phone': _phoneController.text,
+          'role': _selectedRole, // Add role to API request
         }),
       );
 
@@ -218,6 +220,65 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       labelText: 'Phone Number',
                       keyboardType: TextInputType.phone,
                     ),
+                    SizedBox(height: 20),
+
+                    // Add role selection section
+                    Text(
+                      'Account Type',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white12, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          RadioListTile<String>(
+                            title: Text(
+                              'Guest',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            subtitle: Text(
+                              'Book appointments at salons',
+                              style: TextStyle(
+                                  color: Colors.white70, fontSize: 12),
+                            ),
+                            value: 'guest',
+                            groupValue: _selectedRole,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedRole = value!;
+                              });
+                            },
+                            activeColor: AppColors.primaryDark,
+                          ),
+                          Divider(color: Colors.white12, height: 1),
+                          RadioListTile<String>(
+                            title: Text(
+                              'Salon Owner',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            subtitle: Text(
+                              'Manage your salon and bookings',
+                              style: TextStyle(
+                                  color: Colors.white70, fontSize: 12),
+                            ),
+                            value: 'owner',
+                            groupValue: _selectedRole,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedRole = value!;
+                              });
+                            },
+                            activeColor: AppColors.primaryDark,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+
                     if (_errorMessage.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
