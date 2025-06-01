@@ -82,7 +82,8 @@ class _SaloonListScreenState extends State<SaloonListScreen> {
         queryParams['search'] = _searchQuery;
       }
 
-      final uri = Uri.http(ApiConfig.baseUrl, '/api/v1/saloons', queryParams);
+      final uri =
+          Uri.http(ApiConfig.baseUrl, ApiConfig.saloonsListUrl, queryParams);
 
       final response = await http.get(
         uri,

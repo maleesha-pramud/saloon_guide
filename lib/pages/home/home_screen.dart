@@ -1,26 +1,98 @@
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:saloon_guide/config/api_config.dart';
 import 'package:saloon_guide/constants/app_fonts.dart';
-// import 'package:saloon_guide/models/saloon_list/saloon_list_item.dart';
 import 'package:saloon_guide/pages/home/widgets/greeting_text.dart';
 import 'package:saloon_guide/pages/home/widgets/nearby_saloons_section.dart';
-// import 'package:saloon_guide/pages/home/widgets/latest_saloon_card.dart';
-// import 'package:saloon_guide/pages/home/widgets/nearby_saloon_card.dart';
 import 'package:saloon_guide/widgets/custom_drawer.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final _storage = const FlutterSecureStorage();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _isLoading = true;
 
-  // final saloonData = SaloonListItem(
-  //   name: "Maleesha Saloon",
-  //   address: "40/2 Panadura rd, Horana",
-  //   rating: 5.0,
-  //   totalReviews: 122,
-  // );
+  @override
+  void initState() {
+    super.initState();
+    _verifyAuthentication();
+  }
+
+  Future<void> _verifyAuthentication() async {
+    try {
+      final token = await _storage.read(key: 'auth_token');
+
+      if (token == null) {
+        _navigateToLogin();
+        return;
+      }
+
+      final response = await http.get(
+        Uri.parse(ApiConfig.authCheck),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      final responseData = jsonDecode(response.body);
+      if (kDebugMode) {
+        print('Auth verification response: $responseData');
+      }
+
+      if (response.statusCode == 200 && responseData['status'] == true) {
+        // Store updated user data
+        await _storage.write(
+          key: 'user_data',
+          value: jsonEncode(responseData['data']),
+        );
+
+        setState(() {
+          _isLoading = false;
+        });
+      } else {
+        if (kDebugMode) {
+          print('Authentication failed: ${responseData['message']}');
+        }
+        _navigateToLogin();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error verifying authentication: $e');
+      }
+      _navigateToLogin();
+    }
+  }
+
+  void _navigateToLogin() {
+    if (mounted) {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/login',
+        (route) => false,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
