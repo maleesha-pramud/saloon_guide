@@ -17,4 +17,6 @@ class ApiConfig {
   static String get saloonsListUrl => '/api/v1/saloons';
   static String get nearbySaloonListUrl =>
       'http://$baseUrl/api/v1/saloons/nearby';
+  static String addServiceUrl(int saloonId) =>
+      'http://$baseUrl/api/v1/saloons/$saloonId/services';
 }

@@ -8,7 +8,7 @@ import 'package:saloon_guide/config/api_config.dart';
 import 'package:saloon_guide/pages/single_saloon/models/toggle_buttons_model.dart';
 import 'package:intl/intl.dart';
 
-import 'package:saloon_guide/pages/single_saloon/widgets/blured_title_bar.dart';
+// import 'package:saloon_guide/pages/single_saloon/widgets/blured_title_bar.dart';
 import 'package:saloon_guide/pages/single_saloon/widgets/date_selection.dart';
 import 'package:saloon_guide/pages/single_saloon/widgets/single_toggle_button.dart';
 import 'package:saloon_guide/pages/single_saloon/widgets/time_selection.dart';

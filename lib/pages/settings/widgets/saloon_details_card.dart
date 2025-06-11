@@ -166,13 +166,41 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
               'Open: ${saloonData!['opening_time'] ?? 'N/A'} - ${saloonData!['closing_time'] ?? 'N/A'}'),
           if ((saloonData!['services'] as List?)?.isNotEmpty ?? false) ...[
             SizedBox(height: 15),
-            Text(
-              'Services (${(saloonData!['services'] as List).length})',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Services (${(saloonData!['services'] as List).length})',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/add-service',
+                      arguments: {
+                        'saloonId': saloonData!['id'],
+                        'token': widget.token,
+                      },
+                    ).then((result) {
+                      if (result == true) {
+                        _loadSaloonDetails(widget.userData['id']);
+                      }
+                    });
+                  },
+                  child: Text(
+                    'Add Service',
+                    style: TextStyle(
+                      color: AppColors.primaryDark,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: 8),
             ...(saloonData!['services'] as List).map((service) => Padding(
@@ -185,6 +213,42 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
                     ],
                   ),
                 )),
+          ] else ...[
+            SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'No services added yet',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/add-service',
+                      arguments: {
+                        'saloonId': saloonData!['id'],
+                        'token': widget.token,
+                      },
+                    ).then((result) {
+                      if (result == true) {
+                        _loadSaloonDetails(widget.userData['id']);
+                      }
+                    });
+                  },
+                  child: Text(
+                    'Add Service',
+                    style: TextStyle(
+                      color: AppColors.primaryDark,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ],
       ),

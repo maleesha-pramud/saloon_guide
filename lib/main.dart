@@ -10,6 +10,7 @@ import 'package:saloon_guide/pages/create_saloon/create_saloon_screen.dart';
 import 'package:saloon_guide/pages/settings/settings_screen.dart';
 import 'package:saloon_guide/pages/single_saloon/single_saloon_screen.dart';
 import 'package:saloon_guide/pages/saloon/edit_saloon_screen.dart';
+import 'package:saloon_guide/pages/services/add_service_screen.dart';
 
 void main() {
   // Ensure Flutter is properly initialized before using plugins
@@ -87,6 +88,7 @@ class _MainAppState extends State<MainApp> {
         '/settings': (context) => SettingsScreen(),
         '/edit-saloon': (context) => const EditSaloonScreen(),
         '/saloon': (context) => SingleSaloonScreen(),
+        '/add-service': (context) => AddServiceScreen(),
         // '/complete': (context) => CompleteScreen(),
       },
     );
