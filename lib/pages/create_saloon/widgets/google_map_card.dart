@@ -15,7 +15,7 @@ class GoogleMapCard extends StatefulWidget {
 class _GoogleMapCardState extends State<GoogleMapCard> {
   GoogleMapController? mapController;
 
-  final LatLng _center = const LatLng(45.521563, -122.677433);
+  final LatLng _center = const LatLng(6.72306471092143, 80.07638456169933);
   LatLng? _selectedLocation;
 
   @override

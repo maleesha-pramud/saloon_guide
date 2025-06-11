@@ -37,8 +37,8 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
 
   final ScrollController _scrollController = ScrollController();
 
-  double? _selectedLatitude;
-  double? _selectedLongitude;
+  double? _selectedLatitude = 6.72306471092143;
+  double? _selectedLongitude = 80.07638456169933;
 
   @override
   void initState() {
