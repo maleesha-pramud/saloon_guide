@@ -145,7 +145,11 @@ class NearbySaloonCard extends StatelessWidget {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/saloon');
+                      Navigator.pushNamed(
+                        context,
+                        '/saloon',
+                        arguments: {'saloonId': saloonData.id},
+                      );
                     },
                     style: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(Colors.white),

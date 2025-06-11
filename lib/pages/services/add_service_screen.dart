@@ -106,10 +106,15 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
         _priceController.clear();
         _durationController.clear();
 
-        // Navigate back after delay
+        // Navigate back after delay - go to settings/home instead of previous screen
         Future.delayed(Duration(seconds: 2), () {
           if (mounted) {
-            Navigator.pop(context, true); // Return true to indicate success
+            // Navigate to settings screen to show the updated salon details
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/settings',
+              (route) => route.settings.name == '/home',
+            );
           }
         });
       } else {
@@ -152,6 +157,14 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Add your first service to complete your salon setup',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white70,
                       ),
                     ),
                     SizedBox(height: 20),
@@ -259,31 +272,63 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                             },
                           ),
                           SizedBox(height: 30),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: _isLoading ? null : _addService,
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all(
-                                    AppColors.primaryDark),
-                                padding: WidgetStateProperty.all(
-                                    EdgeInsets.symmetric(vertical: 15)),
-                              ),
-                              child: _isLoading
-                                  ? CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.white,
-                                      ),
-                                      strokeWidth: 2,
-                                    )
-                                  : Text(
-                                      'Add Service',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                      ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton(
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () {
+                                          // Skip adding service and go to settings
+                                          Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            '/settings',
+                                            (route) =>
+                                                route.settings.name == '/home',
+                                          );
+                                        },
+                                  style: OutlinedButton.styleFrom(
+                                    side: BorderSide(color: Colors.white70),
+                                    padding: EdgeInsets.symmetric(vertical: 15),
+                                  ),
+                                  child: Text(
+                                    'Skip for Now',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white70,
                                     ),
-                            ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 15),
+                              Expanded(
+                                flex: 2,
+                                child: ElevatedButton(
+                                  onPressed: _isLoading ? null : _addService,
+                                  style: ButtonStyle(
+                                    backgroundColor: WidgetStateProperty.all(
+                                        AppColors.primaryDark),
+                                    padding: WidgetStateProperty.all(
+                                        EdgeInsets.symmetric(vertical: 15)),
+                                  ),
+                                  child: _isLoading
+                                      ? CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            Colors.white,
+                                          ),
+                                          strokeWidth: 2,
+                                        )
+                                      : Text(
+                                          'Add Service',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

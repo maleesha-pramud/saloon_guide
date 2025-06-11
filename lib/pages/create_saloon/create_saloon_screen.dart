@@ -125,22 +125,31 @@ class _CreateSaloonScreenState extends State<CreateSaloonScreen> {
               responseData['data']['message'] ?? 'Saloon created successfully';
         });
 
-        // Clear form after successful creation
-        _nameController.clear();
-        _descriptionController.clear();
-        _addressController.clear();
-        _phoneController.clear();
-        _emailController.clear();
-        _websiteController.clear();
-        _openingTimeController.text = '09:00';
-        _closingTimeController.text = '17:00';
+        // Get the created salon ID from response
+        final createdSaloonId = responseData['data']['saloonId'];
 
-        // Optional: Navigate back or to a confirmation page
-        Future.delayed(Duration(seconds: 2), () {
-          if (mounted) {
-            Navigator.pop(context);
-          }
-        });
+        if (createdSaloonId != null) {
+          // Navigate to add service screen with salon ID and token
+          Future.delayed(Duration(seconds: 2), () {
+            if (mounted) {
+              Navigator.pushReplacementNamed(
+                context,
+                '/add-service',
+                arguments: {
+                  'saloonId': createdSaloonId,
+                  'token': token,
+                },
+              );
+            }
+          });
+        } else {
+          // Fallback: navigate back if no salon ID
+          Future.delayed(Duration(seconds: 2), () {
+            if (mounted) {
+              Navigator.pop(context);
+            }
+          });
+        }
       } else {
         setState(() {
           _errorMessage = responseData['message'] ?? 'Failed to create saloon';
