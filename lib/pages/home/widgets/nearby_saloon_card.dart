@@ -8,6 +8,32 @@ class NearbySaloonCard extends StatelessWidget {
 
   const NearbySaloonCard({super.key, required this.saloonData});
 
+  String _formatTime(String time) {
+    try {
+      // Parse the time string (e.g., "10:00:00" or "20:00:00")
+      final parts = time.split(':');
+      if (parts.length < 2) return time;
+
+      int hour = int.parse(parts[0]);
+      int minute = int.parse(parts[1]);
+
+      String period = hour >= 12 ? 'pm' : 'am';
+
+      // Convert to 12-hour format
+      if (hour == 0) {
+        hour = 12;
+      } else if (hour > 12) {
+        hour = hour - 12;
+      }
+
+      // Format with dots instead of colons and remove leading zeros
+      String formattedMinute = minute.toString().padLeft(2, '0');
+      return '$hour.$formattedMinute $period';
+    } catch (e) {
+      return time; // Return original if parsing fails
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,7 +129,7 @@ class NearbySaloonCard extends StatelessWidget {
                     ),
                     SizedBox(width: 8),
                     Text(
-                      '9.00 - 21.00',
+                      '${_formatTime(saloonData.openingTime)} - ${_formatTime(saloonData.closingTime)}',
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
@@ -127,7 +153,9 @@ class NearbySaloonCard extends StatelessWidget {
                     Icon(Icons.location_on, size: 18),
                     SizedBox(width: 5),
                     Text(
-                      '0.7 km',
+                      saloonData.distance != null
+                          ? '${saloonData.distance!.toStringAsFixed(1)} km'
+                          : 'Distance N/A',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,

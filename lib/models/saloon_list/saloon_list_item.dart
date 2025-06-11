@@ -11,6 +11,7 @@ class SaloonListItem {
   final int ownerId;
   double rating;
   int totalReviews;
+  final double? distance; // Added distance field
 
   SaloonListItem({
     required this.id,
@@ -25,6 +26,7 @@ class SaloonListItem {
     required this.ownerId,
     this.rating = 0.0,
     this.totalReviews = 0,
+    this.distance, // Added distance parameter
   });
 
   factory SaloonListItem.fromJson(Map<String, dynamic> json) {
@@ -42,6 +44,7 @@ class SaloonListItem {
       // Rating and totalReviews might come from a different endpoint or property
       rating: json['rating']?.toDouble() ?? 0.0,
       totalReviews: json['total_reviews'] ?? 0,
+      distance: json['distance']?.toDouble(), // Parse distance from API
     );
   }
 }

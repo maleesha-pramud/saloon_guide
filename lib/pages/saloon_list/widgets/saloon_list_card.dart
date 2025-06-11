@@ -7,6 +7,32 @@ class SaloonListCard extends StatelessWidget {
 
   const SaloonListCard({super.key, required this.saloonData});
 
+  String _formatTime(String time) {
+    try {
+      // Parse the time string (e.g., "10:00:00" or "20:00:00")
+      final parts = time.split(':');
+      if (parts.length < 2) return time;
+
+      int hour = int.parse(parts[0]);
+      int minute = int.parse(parts[1]);
+
+      String period = hour >= 12 ? 'pm' : 'am';
+
+      // Convert to 12-hour format
+      if (hour == 0) {
+        hour = 12;
+      } else if (hour > 12) {
+        hour = hour - 12;
+      }
+
+      // Format with dots instead of colons and remove leading zeros
+      String formattedMinute = minute.toString().padLeft(2, '0');
+      return '$hour.$formattedMinute $period';
+    } catch (e) {
+      return time; // Return original if parsing fails
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -73,7 +99,7 @@ class SaloonListCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      'Open: ${saloonData.openingTime} - ${saloonData.closingTime}',
+                      'Open: ${_formatTime(saloonData.openingTime)} - ${_formatTime(saloonData.closingTime)}',
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.white70,
