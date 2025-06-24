@@ -23,4 +23,5 @@ class ApiConfig {
       'http://$baseUrl/api/v1/saloons/$saloonId/services/$serviceId';
   static String deleteServiceUrl(int saloonId, int serviceId) =>
       'http://$baseUrl/api/v1/saloons/$saloonId/services/$serviceId';
+  static String get appointmentsUrl => 'http://$baseUrl/api/v1/appointments';
 }

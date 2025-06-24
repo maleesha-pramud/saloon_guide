@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:saloon_guide/pages/home/home_screen.dart';
 import 'package:saloon_guide/pages/login/login_screen.dart';
-// import 'package:saloon_guide/pages/complete/complete_screen.dart';
+import 'package:saloon_guide/pages/complete/complete_screen.dart';
 import 'package:saloon_guide/pages/saloon_list/saloon_list_screen.dart';
 import 'package:saloon_guide/pages/register/register_screen.dart';
 import 'package:saloon_guide/pages/create_saloon/create_saloon_screen.dart';
@@ -91,7 +91,7 @@ class _MainAppState extends State<MainApp> {
         '/saloon': (context) => SingleSaloonScreen(),
         '/add-service': (context) => AddServiceScreen(),
         '/edit-service': (context) => EditServiceScreen(),
-        // '/complete': (context) => CompleteScreen(),
+        '/complete': (context) => CompleteScreen(),
       },
     );
   }
