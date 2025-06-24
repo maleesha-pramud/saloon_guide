@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:saloon_guide/constants/app_colors.dart';
 import 'package:saloon_guide/config/api_config.dart';
+import 'package:saloon_guide/models/service/service.dart';
 
 class SaloonDetailsCard extends StatefulWidget {
   const SaloonDetailsCard({super.key, required this.userData, this.token});
@@ -205,12 +206,75 @@ class _SaloonDetailsCardState extends State<SaloonDetailsCard> {
             SizedBox(height: 8),
             ...(saloonData!['services'] as List).map((service) => Padding(
                   padding: const EdgeInsets.only(bottom: 5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(service['name'] ?? 'Service'),
-                      Text('\$${service['price'] ?? '0'}'),
-                    ],
+                  child: InkWell(
+                    onTap: () {
+                      final serviceModel = Service.fromJson(service);
+                      Navigator.pushNamed(
+                        context,
+                        '/edit-service',
+                        arguments: {
+                          'service': serviceModel,
+                          'saloonId': saloonData!['id'],
+                          'token': widget.token,
+                        },
+                      ).then((result) {
+                        if (result == true) {
+                          _loadSaloonDetails(widget.userData['id']);
+                        }
+                      });
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha((0.1 * 255).toInt()),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  service['name'] ?? 'Service',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(height: 2),
+                                Text(
+                                  '${service['duration'] ?? 0} minutes',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white70,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '\$${service['price'] ?? '0'}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(
+                                Icons.edit,
+                                size: 16,
+                                color: Colors.white70,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 )),
           ] else ...[

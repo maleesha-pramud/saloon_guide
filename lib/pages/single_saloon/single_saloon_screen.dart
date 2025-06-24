@@ -31,11 +31,14 @@ class _SingleSaloonScreenState extends State<SingleSaloonScreen> {
   bool _hasError = false;
   String _errorMessage = '';
   int? _saloonId;
-
   List<ToggleButtonsModel> toggleButtonsData = [
     ToggleButtonsModel(
-      title: 'Booking',
+      title: 'Services',
       isSelected: true,
+    ),
+    ToggleButtonsModel(
+      title: 'Booking',
+      isSelected: false,
     ),
     ToggleButtonsModel(
       title: 'Reviews',

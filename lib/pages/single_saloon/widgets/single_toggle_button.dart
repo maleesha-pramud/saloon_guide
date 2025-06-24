@@ -22,7 +22,7 @@ class _SingleToggleButtonState extends State<SingleToggleButton> {
     return ElevatedButton(
       onPressed: widget.onSelected,
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 40),
+        padding: EdgeInsets.symmetric(horizontal: 30),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
           side: BorderSide(
